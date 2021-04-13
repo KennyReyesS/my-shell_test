@@ -11,9 +11,9 @@
 #define DELIM " \t\0"
 
 extern char **environ;
+char *shellname;
 
-
-int tokenize_cmd(char *buf, size_t __attribute__((unused))userInput, char **env);
+int tokenize_cmd(char *buf, char **env);
 int _execute(char *array[]);
 void not_path(char *cmd);
 
