@@ -1,49 +1,58 @@
 #include "simple_shell.h"
 
 /**
- *_strdup - returns a pointer to a newly allocated space in memory,
- *which contains a copy of the string given as a parameter.
- *
- *@str: string original.
- *Return: strd string with the copy of the string original.
+ *_strdup - duplicates a string
+ *@str: string to dupplicate
+ *Return: NULL on error or empty, return duplicated string.
  */
 char *_strdup(char *str)
 {
-	char *strd;
+	int i;
+	int j;
+	char *c;
 
-	if (str == NULL)
+	if (str == 0)
 	{
 		return (NULL);
 	}
-	strd = malloc(_strlen(str) + 1);
-	if (strd == NULL)
+	for (i = 0; str[i] != '\0'; i++)
+	{
+		;
+	}
+	c = malloc(sizeof(char) * (i + 1));
+	if (c == 0)
 	{
 		return (NULL);
 	}
-	_strcpy(strd, str);
-	return (strd);
+	for (j = 0; str[j] != '\0'; j++)
+	{
+		c[j] = str[j];
+	}
+	c[j] = '\0';
+	return (c);
 }
 
 /**
- *_strcat - function that concatenates two strings.
- *@dest: char "Hello "
- *@src: char "World!\n";
- *Return: dest <= '\0'
+ * _strcat - function
+ * @dest: string to add to
+ * @src: string to add
+ *
+ * Description: functions to concat two strings
+ * Return: string
  */
 char *_strcat(char *dest, char *src)
 {
 	int i = 0;
 	int j = 0;
 
-	while (dest[i] != '\0')
+	for (i = 0 ; dest[i] != '\0' ; i++)
 	{
-		i++;
 	}
-	while (src[j] != '\0')
+	for (j = 0 ; src[j] != '\0'; j++)
 	{
-		dest[i++] = src[j++];
+		dest[i + j] = src[j];
 	}
-	dest[i] = '\0';
+	dest[i + j] = '\0';
 	return (dest);
 }
 
@@ -70,43 +79,39 @@ char *_strcpy(char *dest, char *src)
 }
 
 /**
- *_strlen - returns the length of a string.
- *@s: char
- *Return: string length
+ * _strlen - function
+ * @s: first operand & pointer
+ *
+ * Description: function that returns the length of a string
+ * Return: Always 0
  */
 int _strlen(char *s)
 {
-	int count;
+	int index = 0;
 
-	count = 0;
-	while (s[count] != '\0')
+	while (*s != '\0')
 	{
-		count++;
+		index++;
+		s++;
 	}
-	return (count);
+	return (index);
 }
 
 /**
- *_strcmp - compares two strings.
- *@s1: First string.
- *@s2: Second string.
- *Return: return an integer less than (negative value),
- *equal to (0), or greater than (positive value).
+ * _strcmp - function
+ * @s1: string to compare to
+ * @s2: string to compare
+ * @n: # of characters to compare to s1
+ *
+ * Description: function to compare to strings up to the nth character
+ * Return: 0 Success
  */
-int _strcmp(char *s1, char *s2)
+int _strcmp(const char *s1, const char *s2, size_t n)
 {
-	int i = 0; /* ver si esta funcion funciona */
-
-	while ((s1[i] != '\0') && (s2[i] != '\0') && (s1[i] == s2[i]))
+	while (n--)
 	{
-		i++;
+		if (*s1++ != *s2++)
+			return (*(unsigned char *)(s1 - 1) - *(unsigned char *)(s2 - 1));
 	}
-	if (s1[i] == s2[i])
-	{
-		return (0);
-	}
-	else
-	{
-		return (s1[i] - s2[i]);
-	}
+	return (0);
 }
