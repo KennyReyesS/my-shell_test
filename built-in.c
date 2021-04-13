@@ -12,17 +12,17 @@ int _printenv(char **environ)
 
 	while (environ[i] != NULL)
 	{
-		length = _strlen(environ[i]);
-		write(STDOUT_FILENO, environ[i], length);
-		write(STDOUT_FILENO, "\n", 1);
+		length = _strlen(environ[i]); /* almacena la longitud del la lista del env */
+		write(STDOUT_FILENO, environ[i], length); /* y lo imprime con la funcion write */
+		write(STDOUT_FILENO, "\n", 1); /* luego salta la linea */
 		i++;
 	}
-	return (0); /* cambie el void por int en prototype para poner el return 0 */
+	return (0);
 }
 
 /**
  *_getenv - get the env if a user type other command (no "exit", no "env")
- *@name: pointer to the first argument.
+ *@name: pointer to the name of the environment variable
  *@env: pointer char to the string of the enviroment list.
  *Return: the string to the command in the path or NULL if "Not found".
  */
@@ -34,18 +34,18 @@ char *_getenv(const char *name, char **env)
 
 	if (name == NULL || env == NULL || *env == NULL)
 		return (NULL);
-	while (env[i] != NULL)
+	while (env[i] != NULL) /* mientras el env no sea nulo */
 	{
-		while (env[i][j] == name[j])
-			j++;
-		if (env[i][j] == '=')
+		while (env[i][j] == name[j]) /* si encuentra el nombre de la variable de entorno */
+			j++; /* revisara la linea de izquierda a derecha */
+		if (env[i][j] == '=') /* si encuentra un = */
 		{
-			j++;
-			return (&(env[i][j]));
+			j++; /* continua revisando el string */
+			return (&(env[i][j])); /* e imprime la dirección donde se encuentra la variable de entorno en el string */
 		}
 		i++;
 		j = 0;
 	}
-	write(STDOUT_FILENO, "Not found", 9);
+	write(STDOUT_FILENO, "Not found", 9); /* si no encuentra imprimira Not found */
 	return (NULL);
 }
