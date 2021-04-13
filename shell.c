@@ -1,6 +1,4 @@
 #include "simple_shell.h"
-char *name;
-
 /**
  *main - Shell program.
  *@argc: unused.
@@ -13,8 +11,8 @@ int main(int argc __attribute__((unused)), char *argv[], char **env)
 	char *buf = NULL;
 	size_t sizebuf = 0;
 	ssize_t userInput = 0;
-	name = argv[0];/* aqui declare el name para imprimir el caso de error */
 
+	shellname = argv[0];/*aqui declare el name para imprimir el caso de error*/
 	while (1)
 	{
 		if (isatty(STDIN_FILENO) == 1) /* si es un descriptor abierto conectado a una terminal */
@@ -31,7 +29,7 @@ int main(int argc __attribute__((unused)), char *argv[], char **env)
 			buf[userInput - 1] = '\0';
 		if (*buf == '\0') /* Si el usuario no escribe nada continua el programa*/
 			continue;
-		if (tokenize_cmd(buf, userInput, env) == 2) /* para poner userInput tuve que declararlo en la funcion con atribute */
+		if (tokenize_cmd(buf, env) == 2) /* para poner userInput tuve que declararlo en la funcion con atribute */
 			break; /* Si el comando es exit termina el programa */
 	}
 	free(buf); /* al terminar el programa libera el buf */
@@ -41,12 +39,12 @@ int main(int argc __attribute__((unused)), char *argv[], char **env)
 
 /**
  *tokenize_cmd - tokenizes each command entered by the user.
- *@userInput: Command entered by the user.
+ *@buf: command entered by the user.
  *@env: pointer to the enviroment list.
  *Return: the enviroment if the user types "env", the execution of the command,
  *or 2 if the user types exit (this ends the program).
  */
-int tokenize_cmd(char *buf, size_t __attribute__((unused))userInput, char **env)
+int tokenize_cmd(char *buf, char **env)
 {
 	char *token;
 	char *array[100];
@@ -69,7 +67,7 @@ int tokenize_cmd(char *buf, size_t __attribute__((unused))userInput, char **env)
 /**
  *_execute - executes the command stored in the array.
  *@array: array of the commands.
- *Return:
+ *Return: 0, or 1 in exit.
  */
 
 int _execute(char *array[])
@@ -84,7 +82,7 @@ int _execute(char *array[])
 	if (exec_path == NULL) /* Si no se encontro el comando ejecuta */
 	{
 		not_path(cmd); /* funcion por si no se encontro el path */
-		return (3); /* NO SEEEEEEEEEEEEEEEEEEE */
+		return (0);
 	}
 	pid = fork(); /* de lo contrario crearemos un hijo */
 	if (pid < 0) /* si da error */
@@ -108,7 +106,7 @@ int _execute(char *array[])
 
 void not_path(char *cmd)
 {
-	write(STDOUT_FILENO, name, _strlen(name)); /* name se declara en el main y es argv[0] */
+	write(STDOUT_FILENO, shellname, _strlen(shellname)); /* name se declara en el main y es argv[0] */
 	write(STDOUT_FILENO, ": 1: ", 5); /* n debería ser parte de una funcion que incremente un contador por cada prompt impreso */
 	write(STDOUT_FILENO, cmd, _strlen(cmd)); /* nombre del comando escrito por el usuario */
 	write(STDOUT_FILENO, ": not found\n", 12);
