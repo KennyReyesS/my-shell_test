@@ -50,9 +50,9 @@ int tokenize_cmd(char *buf, char **env)
 	char *array[100];
 	int i = 0; /* aqui el valor de i lo puse arriba, el otro lo puso despues de strtok */
 
-	if (_strcmp(buf, "exit") == 0)
+	if (_strcmp(buf, "exit", 4) == 0)
 		return (2); /* cambiar return para probar poniendo una funcion que salga del programa */
-	if (_strcmp(buf, "env") == 0) /* si el comando ingresado por el usuario es "env" ejecuta */
+	if (_strcmp(buf, "env", 3) == 0) /* si el comando ingresado por el usuario es "env" ejecuta */
 		return (_printenv(env)); /* la funcion printenv */
 	token = strtok(buf, DELIM); /* tokenizamos la cadena separandolos por los delimitadores dentro de DELIM (estos estan en el .h) */
 	while (token)

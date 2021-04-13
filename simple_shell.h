@@ -1,5 +1,5 @@
-#ifndef _SIMPLE_SHELL_
-#define _SIMPLE_SHELL_
+#ifndef _SHELL_
+#define _SHELL_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -24,6 +24,7 @@ char *searchpath(char *cmd, char **env);
 char *_strdup(char *str);
 char *_strcat(char *dest, char *src);
 int _strlen(char *s);
-int _strcmp(char *s1, char *s2);
+int _strcmp(const char *s1, const char *s2, size_t n);
 char *_strcpy(char *dest, char *src);
+
 #endif
