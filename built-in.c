@@ -37,11 +37,12 @@ char *_getenv(const char *name, char **env)
 	while (env[i] != NULL) /* mientras el env no sea nulo */
 	{
 		while (env[i][j] == name[j]) /* si encuentra el nombre de la variable de entorno */
-			j++; /* revisara la linea de izquierda a derecha */
+			j++; /* revisara la linea donde se encuentra la variable de entorno, por ejemplo PATH=/usr/local/sbin:/usr/local/bin: */
 		if (env[i][j] == '=') /* si encuentra un = */
 		{
-			j++; /* continua revisando el string */
-			return (&(env[i][j])); /* e imprime la dirección donde se encuentra la variable de entorno en el string */
+			j++; /* avanza j */
+			return (&(env[i][j])); /* retorna la direccion de la variable de entorno despues del = por ejemplo en el caso del PATH:
+						  /usr/local/sbin:/usr/local/bin: */
 		}
 		i++;
 		j = 0;
