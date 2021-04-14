@@ -48,7 +48,7 @@ int tokenize_cmd(char *buf, char **env)
 {
 	char *token;
 	char *array[100];
-	int i = 0; /* aqui el valor de i lo puse arriba, el otro lo puso despues de strtok */
+	int i = 0;
 
 	if (_strcmp(buf, "exit", 4) == 0)
 		return (2); /* cambiar return para probar poniendo una funcion que salga del programa */
@@ -97,13 +97,18 @@ int _execute(char *array[])
 	else if (pid == 0) /* es hijo y ejecuta el comando*/
 	{
 		execve(exec_path, array, environ);
-		/*perror("Error:");*/ /* esto creo que ya no es necesario, funciona igual */
-		/*exit(1);*/
+		perror("Error:"); /* en caso de error con el execve */
+		exit(EXIT_FAILURE);
 	}
 	free(exec_path); /* libera memoria dentro del exec_path */
 	return (0);
 }
 
+/**
+ *not_path - prints in case the command is not found.
+ *@cmd: command entered by the user.
+ *Return: 0.
+ */
 void not_path(char *cmd)
 {
 	write(STDOUT_FILENO, shellname, _strlen(shellname)); /* shellname se declara en el main y es argv[0] */
