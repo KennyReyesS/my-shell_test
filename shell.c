@@ -25,8 +25,8 @@ int main(int argc __attribute__((unused)), char *argv[], char **env)
 			break; /* y termina el programa */
 		}
 
-		if (buf[userInput - 1] == '\n') /* Si  */
-			buf[userInput - 1] = '\0';
+		if (buf[userInput - 1] == '\n') /* si el comando ingresado tiene un salto de linea al final (enter) */
+			buf[userInput - 1] = '\0'; /* se le cambia '\n' por nulo, para poder correr las funciones sin problemas */
 		if (*buf == '\0') /* Si el usuario no escribe nada continua el programa*/
 			continue;
 		if (tokenize_cmd(buf, env) == 2) /* para poner userInput tuve que declararlo en la funcion con atribute */
@@ -97,8 +97,8 @@ int _execute(char *array[])
 	else if (pid == 0) /* es hijo y ejecuta el comando*/
 	{
 		execve(exec_path, array, environ);
-		perror("Error:");
-		exit(1);
+		/*perror("Error:"); /* esto creo que ya no es necesario, funciona igual */
+		/*exit(1);*/
 	}
 	free(exec_path); /* libera memoria dentro del exec_path */
 	return (0);
@@ -106,8 +106,8 @@ int _execute(char *array[])
 
 void not_path(char *cmd)
 {
-	write(STDOUT_FILENO, shellname, _strlen(shellname)); /* name se declara en el main y es argv[0] */
-	write(STDOUT_FILENO, ": 1: ", 5); /* n debería ser parte de una funcion que incremente un contador por cada prompt impreso */
+	write(STDOUT_FILENO, shellname, _strlen(shellname)); /* shellname se declara en el main y es argv[0] */
+	write(STDOUT_FILENO, ": 1: ", 5); /* se imprime el numero 1 al igual que en el shell original cuando el comando no es valido */
 	write(STDOUT_FILENO, cmd, _strlen(cmd)); /* nombre del comando escrito por el usuario */
 	write(STDOUT_FILENO, ": not found\n", 12);
 }
