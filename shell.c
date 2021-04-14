@@ -27,9 +27,9 @@ int main(int argc __attribute__((unused)), char *argv[], char **env)
 
 		if (buf[userInput - 1] == '\n') /* si el comando ingresado tiene un salto de linea al final (enter) */
 			buf[userInput - 1] = '\0'; /* se le cambia '\n' por nulo, para poder correr las funciones sin problemas */
-		if (*buf == '\0') /* Si el usuario no escribe nada continua el programa*/
+		if (*buf == '\0') /* Si el usuario no escribe nada continua el programa y presiona enter, se mostrara el prompt de nuevo*/
 			continue;
-		if (tokenize_cmd(buf, env) == 2) /* para poner userInput tuve que declararlo en la funcion con atribute */
+		if (tokenize_cmd(buf, env) == 2) /* si es igual a 2 ( 2 = exit | vease el retorno en la funcion tokenize_cmd) */
 			break; /* Si el comando es exit termina el programa */
 	}
 	free(buf); /* al terminar el programa libera el buf */
@@ -97,7 +97,7 @@ int _execute(char *array[])
 	else if (pid == 0) /* es hijo y ejecuta el comando*/
 	{
 		execve(exec_path, array, environ);
-		/*perror("Error:"); /* esto creo que ya no es necesario, funciona igual */
+		/*perror("Error:");*/ /* esto creo que ya no es necesario, funciona igual */
 		/*exit(1);*/
 	}
 	free(exec_path); /* libera memoria dentro del exec_path */
