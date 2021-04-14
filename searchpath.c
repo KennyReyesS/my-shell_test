@@ -45,6 +45,6 @@ char *searchpath(char *cmd, char **env)
 	free(new_path); /* se libera memoria del new_path */
 
 	if (stat(cmd, &cmd_stat) == 0) /* Con esto funciona el modo interactivo */
-	  return (_strdup(cmd));
+	return (_strdup(cmd));
 	return (NULL);
 }
