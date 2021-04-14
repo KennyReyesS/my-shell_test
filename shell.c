@@ -96,7 +96,7 @@ int _execute(char *array[])
 	}
 	else if (pid == 0) /* es hijo y ejecuta el comando*/
 	{
-		(execve(exec_path, array, environ));
+		execve(exec_path, array, environ);
 		perror("Error:");
 		exit(1);
 	}
